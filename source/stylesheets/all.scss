@@ -1,0 +1,606 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+.cf
+{
+    zoom:1;
+    
+    &:before,
+    &:after{
+        content:" ";
+        display:table;
+    }
+    
+    &:after{
+        clear:both;
+    }
+}
+
+
+/*------------------------------------------------------------------
+[$PARTIAL-BREAKPOINTS]
+
+These are our mixins for breakpoints.
+-------------------------------------------------------------------*/
+
+@mixin custom-breakpoint($pixel) {
+	@media (min-width: $pixel+px)  { @content; }
+}
+
+@mixin breakpoint($point) {
+	@if $point == xl {
+		@media (min-width: 1200px) { @content; }
+	}
+	@else if $point == l {
+		@media (min-width: 980px) { @content; }
+	}
+	@else if $point == m {
+		@media (min-width: 768px)  { @content; }
+	}
+	@else if $point == s {
+		@media (min-width: 515px)  { @content; }
+	}
+	@else if $point == xs {
+		@media (min-width: 320px)  { @content; }
+	}
+}
+
+@mixin custom-max-breakpoint($pixel) {
+	@media (max-width: $pixel+px)  { @content; }
+}
+
+@mixin max-breakpoint($point) {
+	@if $point == xl {
+		@media (max-width: 1200px) { @content; }
+	}
+	@else if $point == l {
+		@media (max-width: 980px) { @content; }
+	}
+	@else if $point == m {
+		@media (max-width: 768px)  { @content; }
+	}
+	@else if $point == s {
+		@media (max-width: 515px)  { @content; }
+	}
+	@else if $point == xs {
+		@media (max-width: 320px)  { @content; }
+	}
+}
+
+/*------------------------------------------------------------------
+[$PARTIAL-GRID]
+
+Our grid. Used to lay stuff out effectively.
+-------------------------------------------------------------------*/
+
+$grid-gutter: 20px;
+
+.container {
+	max-width: 95%;
+	margin: 0 auto;
+}
+
+.gw, .grid-wrapper {
+    /**
+     * Negative margin to negate the padding on the first grid child.
+     */
+    margin-left:-$grid-gutter;
+    /**
+     * The following declarations allow us to use the `.gw` class on lists.
+     */
+    list-style:none;
+    margin-bottom:0;
+    @extend .cf;
+}
+
+	.gw > .gw {
+		margin-left: 0;
+	}
+
+.g {
+	min-height: 1px;
+	float: left;
+	padding-left: $grid-gutter;
+	webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box;
+	*behavior: url(/boxsizing.htc);
+}
+
+.gw--full {
+	margin-left: 0;
+
+	.g {
+		padding-left: 0;
+	}
+}
+
+@mixin create-grid($size) {
+
+	$prepend: null;
+
+	@if $size == all {
+		$prepend: null;
+	} @else {
+		$prepend: $size + "-";
+	}
+
+	.#{$prepend}one-whole {
+		width: 100%;
+	}
+
+		.#{$prepend}push-one-whole {
+			margin-left: 100%;
+		}
+
+	.#{$prepend}one-half, .#{$prepend}two-quarters, .#{$prepend}three-sixths, .#{$prepend}four-eighths, .#{$prepend}five-tenths {
+		width: 50%;
+	}
+
+		.#{$prepend}push-one-half, .#{$prepend}push-two-quarters, .#{$prepend}push-three-sixths, .#{$prepend}push-four-eighths, .#{$prepend}push-five-tenths {
+			margin-left: 50%;
+		}
+
+	.#{$prepend}one-third, .#{$prepend}two-sixths {
+		width: 33.333%;
+	}
+
+		.#{$prepend}push-one-third, .#{$prepend}push-two-sixths {
+			margin-left: 33.333%;
+		}
+
+	.#{$prepend}two-thirds, .#{$prepend}four-sixths {
+		width: 66.666%;
+	}
+
+		.#{$prepend}push-two-thirds, .#{$prepend}push-four-sixths {
+			margin-left: 66.666%;
+		}
+
+	.#{$prepend}one-quarter, .#{$prepend}two-eighths {
+		width: 25%;
+	}
+
+		.#{$prepend}push-one-quarter, .#{$prepend}push-two-eighths {
+			margin-left: 25%;
+		}
+
+	.#{$prepend}three-quarters, .#{$prepend}six-eighths {
+		width: 75%;
+	}
+
+		.#{$prepend}push-three-quarters, .#{$prepend}push-six-eighths {
+			margin-left: 75%;
+		}
+
+	.#{$prepend}one-fifth, .#{$prepend}two-tenths, .#{$prepend}four-tenths {
+		width: 20%;
+	}
+
+		.#{$prepend}push-one-fifth, .#{$prepend}push-two-tenths, .#{$prepend}push-four-tenths {
+			margin-left: 20%;
+		}
+
+	.#{$prepend}two-fifths {
+		width: 40%;
+	}
+
+		.#{$prepend}push-two-fifths {
+			margin-left: 40%;
+		}
+
+	.#{$prepend}three-fifths, .#{$prepend}six-tenths {
+		width: 60%;
+	}
+
+		.#{$prepend}push-three-fifths, .#{$prepend}push-six-tenths {
+			margin-left: 60%;
+		}
+
+	.#{$prepend}four-fifths, .#{$prepend}eight-tenths {
+		width: 80%;
+	}
+
+		.#{$prepend}push-four-fifths, .#{$prepend}push-eight-tenths {
+			margin-left: 80%;
+		}
+
+	.#{$prepend}one-sixth {
+		width: 16.666%;
+	}
+
+		.#{$prepend}push-one-sixth {
+			margin-left: 16.666%;
+		}
+
+	.#{$prepend}five-sixths {
+		width: 83.333%;
+	}
+
+		.#{$prepend}push-five-sixths {
+			margin-left: 83.333%;
+		}
+
+	.#{$prepend}one-eighth {
+		width: 12.5%;
+	}
+
+		.#{$prepend}push-one-eighth {
+			margin-left: 12.5%;
+		}
+
+	.#{$prepend}three-eighths {
+		width: 37.5%;
+	}
+
+		.#{$prepend}push-three-eighths {
+			margin-left: 37.5%;
+		}
+
+	.#{$prepend}five-eighths {
+		width: 62.5%;
+	}
+
+		.#{$prepend}push-five-eighths {
+			margin-left: 62.5%;
+		}
+
+	.#{$prepend}seven-eighths {
+		width: 87.5%;
+	}
+
+		.#{$prepend}push-seven-eighths {
+			margin-left: 87.5%;
+		}
+
+	.#{$prepend}one-tenth {
+		width: 10%;
+	}
+
+		.#{$prepend}push-one-tenth {
+			margin-left: 10%;
+		}
+
+	.#{$prepend}three-tenths {
+		width: 30%;
+	}
+
+		.#{$prepend}push-three-tenths {
+			margin-left: 30%;
+		}
+
+	.#{$prepend}seven-tenths {
+		width: 70%;
+	}
+
+		.#{$prepend}push-seven-tenths {
+			margin-left: 70%;
+		}
+
+	.#{$prepend}nine-tenths {
+		width: 90%;
+	}
+
+		.#{$prepend}push-nine-tenths {
+			margin-left: 90%;
+		}
+
+	// Single column sizes
+
+	.#{$prepend}g-1 {
+		width: 8.333333333%;
+	}
+
+		.#{$prepend}push-g-1 {
+			margin-left: 8.333333333%;
+		}
+
+	.#{$prepend}g-2 {
+		@extend .#{$prepend}one-sixth;
+	}
+
+		.#{$prepend}push-g-2 {
+			@extend .#{$prepend}push-one-sixth;
+		}
+
+	.#{$prepend}g-3 {
+		@extend .#{$prepend}one-quarter;
+	}
+
+		.#{$prepend}push-g-3 {
+			@extend .#{$prepend}push-one-quarter;
+		}
+
+	.#{$prepend}g-4 {
+		@extend .#{$prepend}one-third;
+	}
+
+		.#{$prepend}push-g-4 {
+			@extend .#{$prepend}push-one-third;
+		}
+
+	.#{$prepend}g-5 {
+		width: 41.666666665%;
+	}
+
+		.#{$prepend}push-g-5 {
+			margin-left: 41.666666665%;
+		}
+
+	.#{$prepend}g-6 {
+		@extend .#{$prepend}one-half;
+	}
+
+		.#{$prepend}push-g-6 {
+			@extend .#{$prepend}push-one-half;
+		}
+
+	.#{$prepend}g-7 {
+		width: 58.333333331%;
+	}
+
+		.#{$prepend}push-g-7 {
+			margin-left: 58.333333331%;
+		}
+
+	.#{$prepend}g-8 {
+		@extend .#{$prepend}two-thirds;
+	}
+
+		.#{$prepend}push-g-8 {
+			@extend .#{$prepend}push-two-thirds;
+		}
+
+	.#{$prepend}g-9 {
+		@extend .#{$prepend}three-quarters
+	}
+
+		.#{$prepend}push-g-9 {
+		@extend .#{$prepend}push-three-quarters
+	}
+
+	.#{$prepend}g-10 {
+		@extend .#{$prepend}five-sixths;
+	}
+
+		.#{$prepend}push-g-10 {
+			@extend .#{$prepend}push-five-sixths;
+		}
+
+	.#{$prepend}g-11 {
+		width: 91.666666663%;
+	}
+
+		.#{$prepend}push-g-11 {
+			margin-left: 91.666666663%;
+		}
+
+	.#{$prepend}g-12 {
+		@extend .#{$prepend}one-whole;
+	}
+
+		.#{$prepend}push-g-12 {
+			@extend .#{$prepend}push-one-whole;
+		}
+
+	.#{$prepend}push-none {
+		margin-left: 0;
+	}
+}
+
+@include create-grid(all);
+
+/*---------------------------------------------
+[$mobile-grid]
+----------------------------------------------*/
+@include breakpoint(xs) {
+	@include create-grid(xs);
+}
+
+@include breakpoint(s) {
+	@include create-grid(s);
+}
+
+@include breakpoint(m) {
+	@include create-grid(m);
+}
+
+@include breakpoint(l) {
+	@include create-grid(l);
+}
+
+@include breakpoint(xl) {
+	@include create-grid(xl);
+}
+
+/*---------------------------------------------
+// ENDS [mobile-grid]
+----------------------------------------------*/
+
+$yellow:    #b58900;
+$orange:    #cb4b16;
+$red:       #dc322f;
+$magenta:   #d33682;
+$violet:    #6c71c4;
+$blue:      #268bd2;
+$cyan:      #2aa198;
+$green:     #859900;
+
+html {
+}
+
+p a:link, li a:link {
+	color: #3E869C;
+	text-decoration: none;
+}
+
+p a:visited, li a:visited {
+	color: #3E869C;
+	text-decoration: none;
+	text-decoration: line-through;
+	
+}
+
+body {
+	font-family:'ITC Franklin W01';
+	font-weight: 200;
+	color:#DCE9ED;
+	background-color: #090C14;
+	margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 300;
+}
+
+p {
+	line-height: 120%;
+}
+
+p.opening {
+	font-size: 150%;
+}
+
+.link-list {
+	list-style: square;
+	padding-left: 20px;
+	
+	li {
+		margin-bottom: 0.25em;;
+	}
+}
+
+.hero {
+	background-color: #F7D624;
+	height: 100vh;
+	background: url('../images/hero/me.jpg') no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.hero__message {
+	padding-top: 15vh;
+	color: white;
+	text-align: center;
+	width: 50%;
+	margin: 0 auto;
+	
+	.big {
+		font-size: 5em;
+		margin-bottom: 0;
+		font-weight: 300;
+	}
+	
+	.opening {
+		a {
+			color: white;
+			text-decoration: underline;
+		}
+	}
+}
+
+.big-list {
+	list-style: none;
+	margin:0;
+	padding: 0;
+	
+	a {
+		overflow: hidden;
+		width: 100%;
+		display: block;
+		padding-bottom: 20px;
+		padding-top: 20px;
+		box-sizing: border-box;
+		height:15vh;
+		transition: all 0.5s ease;
+		
+		.description {
+			
+			
+		}
+		
+		&:hover {
+			background-color: black;
+			
+			.description {
+				opacity: 1;
+				
+			}
+		}
+	}
+	
+	li {
+		
+	}
+	
+	h2 {
+		margin: 0;
+		padding:0;
+	}
+	
+	.web {
+		color: $blue;
+		background-color: darken($blue, 30%);
+		
+		&:hover {
+			background-color: $blue;
+			color: white;
+		}
+	}
+	
+	.graphic {
+		color: $violet;
+		background-color: darken($violet, 40%);
+		
+		&:hover {
+			background-color: $violet;
+			color: white;
+		}
+
+	}
+	
+	.photography {
+		color: $cyan;
+		background-color: darken($cyan, 30%);
+		
+		&:hover {
+			background-color: $cyan;
+			color: white;
+		}
+
+	}
+}
+
+@include max-breakpoint(s) {
+	body {
+		font-size: 12px;
+	}
+	
+	.hero__message {
+		width: 80%;
+	}
+	
+	.hero {
+		background-image: none;
+		background-color: #F8D724;
+	}
+}
+
+.photo-grid {
+	img {
+		width: 100%;
+		height: auto;
+		display: block;
+	}
+}
